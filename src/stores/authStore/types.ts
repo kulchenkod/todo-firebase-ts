@@ -7,3 +7,8 @@ export const SIGN_IN_REQUEST = 'SIGN_IN_REQUEST' as const;
 export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS' as const;
 export const SIGN_IN_RESPONSE = 'SIGN_IN_RESPONSE' as const;
 export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE' as const;
+
+export const RESSET_PASSWORD_REQUEST = 'RESSET_PASSWORD_REQUEST' as const;
+export const RESSET_PASSWORD_SUCCESS = 'RESSET_PASSWORD_SUCCESS' as const;
+export const RESSET_PASSWORD_RESPONSE = 'RESSET_PASSWORD_RESPONSE' as const;
+export const RESSET_PASSWORD_FAILURE = 'RESSET_PASSWORD_FAILURE' as const;

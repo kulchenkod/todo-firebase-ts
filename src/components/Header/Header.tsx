@@ -1,7 +1,15 @@
-import React from 'react';
-import { Typography, AppBar, Toolbar, makeStyles } from '@material-ui/core';
-import { Link } from 'react-router-dom';
-// import { AuthContext } from '../../common/FirebaseAuthProvider';
+import React, { useContext } from 'react';
+import {
+  Typography,
+  AppBar,
+  Toolbar,
+  makeStyles,
+  Avatar,
+  Button,
+} from '@material-ui/core';
+import { Link, useHistory } from 'react-router-dom';
+import { AuthContext } from '../../common/FirebaseAuthProvider';
+import useLogout from '../../hooks/useLogout';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,11 +22,20 @@ const useStyles = makeStyles(theme => ({
     color: 'white',
     textDecoration: 'none',
   },
+  avatar: {
+    cursor: 'pointer',
+  },
 }));
 
 const Header: React.FC = () => {
   const classes = useStyles();
-  // const { user, signedIn } = useContext(AuthContext);
+  const { user, signedIn } = useContext(AuthContext);
+  const logout = useLogout();
+  const history = useHistory();
+
+  const name = user && user.email?.charAt(0).toUpperCase();
+
+  const navigateToSignIn = () => history.push('/signin');
 
   return (
     <div className={classes.root}>
@@ -29,6 +46,15 @@ const Header: React.FC = () => {
               Todo project firebase application
             </Typography>
           </Link>
+          {signedIn ? (
+            <Avatar className={classes.avatar} onClick={logout}>
+              {name}
+            </Avatar>
+          ) : (
+            <Button variant="contained" onClick={navigateToSignIn}>
+              SignIn
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>

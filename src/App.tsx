@@ -6,6 +6,7 @@ import store from './setup/store';
 import { Join } from './components/Join';
 import { SignIn } from './components/SignIn';
 import { Header } from './components/Header';
+import { ForgotPassword } from './components/ForgotPassword';
 import { FirebaseAuthProvider } from './common/FirebaseAuthProvider';
 
 const App: React.FC = () => (
@@ -16,6 +17,11 @@ const App: React.FC = () => (
         <Switch>
           <UnPrivateRoute exact path="/join" component={Join} />
           <UnPrivateRoute exact path="/signin" component={SignIn} />
+          <UnPrivateRoute
+            exact
+            path="/forgot-password"
+            component={ForgotPassword}
+          />
         </Switch>
       </Router>
     </Provider>

@@ -22,16 +22,16 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SignIn: React.FC = () => {
+const Join: React.FC = () => {
   const style = useStyles();
   return (
     <>
       <Grid container item md={12} justify="center">
         <MakeAsyncFunction
           listener={promiseListener}
-          start={types.SIGN_IN_REQUEST}
-          resolve={types.SIGN_IN_RESPONSE}
-          reject={types.SIGN_IN_FAILURE}
+          start={types.RESSET_PASSWORD_REQUEST}
+          resolve={types.RESSET_PASSWORD_RESPONSE}
+          reject={types.RESSET_PASSWORD_FAILURE}
         >
           {onSubmit => (
             <Form
@@ -44,25 +44,13 @@ const SignIn: React.FC = () => {
                 <form onSubmit={handleSubmit}>
                   <Grid container direction="column" className={style.fileds}>
                     <Typography align="center" variant="h5" gutterBottom>
-                      Sign in page
+                      Forgot password page
                     </Typography>
                     <Field name="email">
                       {({ input: { name, value, onChange } }) => (
                         <TextField
                           label="Email"
                           type="email"
-                          required
-                          name={name}
-                          value={value}
-                          onChange={onChange}
-                        />
-                      )}
-                    </Field>
-                    <Field name="password">
-                      {({ input: { name, value, onChange } }) => (
-                        <TextField
-                          label="Password"
-                          type="password"
                           required
                           name={name}
                           value={value}
@@ -83,13 +71,10 @@ const SignIn: React.FC = () => {
                     className={style.button}
                     disabled={submitting}
                   >
-                    Sign in
+                    Reset Password
                   </Button>
                   <Typography align="center" component="p" gutterBottom>
-                    You not have account? <Link to="/join">Join</Link>
-                  </Typography>
-                  <Typography align="center" component="p" gutterBottom>
-                    <Link to="/forgot-password">Forgot password?</Link>
+                    You have account? <Link to="/signin">Sign in</Link>
                   </Typography>
                 </form>
               )}
@@ -101,4 +86,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default Join;

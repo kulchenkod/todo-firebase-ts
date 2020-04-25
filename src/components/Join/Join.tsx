@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
 import MakeAsyncFunction from 'react-redux-promise-listener';
+import { Link } from 'react-router-dom';
 import { promiseListener } from '../../setup';
 import { types } from '../../stores/authStore';
 
@@ -84,6 +85,9 @@ const Join: React.FC = () => {
                   >
                     Join
                   </Button>
+                  <Typography align="center" component="p" gutterBottom>
+                    You have account? <Link to="/signin">Sign in</Link>
+                  </Typography>
                 </form>
               )}
             </Form>
