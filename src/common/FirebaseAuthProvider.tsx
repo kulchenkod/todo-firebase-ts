@@ -1,6 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { User, auth } from 'firebase/app';
-// import queryString from 'query-string';
 import firebaseApp from '../config/firebaseConfig';
 
 export type Auth = {
@@ -20,11 +19,7 @@ export const FirebaseAuthProvider: React.FC = ({ children }) => {
 
   const onAuthStateChanged = () => {
     return firebaseApp.auth().onAuthStateChanged(firebaseUser => {
-      console.log(firebaseUser, 'FB USER');
       setUser(firebaseUser);
-      // if (firebaseUser) {
-      //   userLoggedIn(firebaseUser, this.userEvent, isOffline);
-      // }
     });
   };
 
@@ -34,20 +29,6 @@ export const FirebaseAuthProvider: React.FC = ({ children }) => {
       .setPersistence(auth.Auth.Persistence.LOCAL)
       .then(() => onAuthStateChanged());
   }, []);
-
-  // const email = getEmail();
-  // if (email && window.location.href.includes('apiKey')) {
-  //   this.onEmailSignIn(email);
-  // }
-
-  // const logout = () => {
-  //   firebaseApp
-  //     .auth()
-  //     .signOut()
-  //     .then(() => {
-  //       userLoggedOut();
-  //     });
-  // };
 
   return (
     <AuthContext.Provider

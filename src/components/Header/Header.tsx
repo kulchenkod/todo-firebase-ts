@@ -10,10 +10,12 @@ import {
 import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../common/FirebaseAuthProvider';
 import useLogout from '../../hooks/useLogout';
+import routes from '../../routes/routes';
 
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
+    marginBottom: '20px',
   },
   navigationWrapper: {
     justifyContent: 'space-between',
@@ -35,13 +37,13 @@ const Header: React.FC = () => {
 
   const name = user && user.email?.charAt(0).toUpperCase();
 
-  const navigateToSignIn = () => history.push('/signin');
+  const navigateToSignIn = () => history.push(routes.signin);
 
   return (
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar className={classes.navigationWrapper}>
-          <Link to="/" className={classes.link}>
+          <Link to={routes.home} className={classes.link}>
             <Typography display="inline" variant="h6">
               Todo project firebase application
             </Typography>

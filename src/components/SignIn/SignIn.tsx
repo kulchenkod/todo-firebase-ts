@@ -12,6 +12,7 @@ import MakeAsyncFunction from 'react-redux-promise-listener';
 import { Link } from 'react-router-dom';
 import { promiseListener } from '../../setup';
 import { types } from '../../stores/authStore';
+import routes from '../../routes/routes';
 
 const useStyles = makeStyles(theme => ({
   fileds: {
@@ -86,10 +87,10 @@ const SignIn: React.FC = () => {
                     Sign in
                   </Button>
                   <Typography align="center" component="p" gutterBottom>
-                    You not have account? <Link to="/join">Join</Link>
+                    You not have account? <Link to={routes.join}>Join</Link>
                   </Typography>
                   <Typography align="center" component="p" gutterBottom>
-                    <Link to="/forgot-password">Forgot password?</Link>
+                    <Link to={routes.forgotPassword}>Forgot password?</Link>
                   </Typography>
                 </form>
               )}

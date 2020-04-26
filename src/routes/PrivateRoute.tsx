@@ -3,13 +3,13 @@ import { Route, Redirect } from 'react-router-dom';
 import { AuthContext } from '../common/FirebaseAuthProvider';
 import routes from './routes';
 
-const UnPrivateRoute = ({ ...rest }) => {
+const PrivateRoute = ({ ...rest }) => {
   const { signedIn } = useContext(AuthContext);
 
-  if (signedIn) {
-    return <Redirect to={routes.projects} />;
+  if (!signedIn) {
+    return <Redirect to={routes.home} />;
   }
   return <Route {...rest} />;
 };
 
-export default UnPrivateRoute;
+export default PrivateRoute;

@@ -1,5 +1,6 @@
 import firebaseApp from '../config/firebaseConfig';
-import { AuthValue, ResetPassword } from '../authTypes';
+import { AuthValue, ResetPassword } from '../ts-types/authTypes';
+import { ACTION_RESET_EMAIL } from '../environment';
 
 export const createUser = ({ email, password }: AuthValue) =>
   firebaseApp
@@ -22,9 +23,6 @@ export const signInUser = ({ email, password }: AuthValue) =>
 export const ressetPassword = ({ email }: ResetPassword) =>
   firebaseApp
     .auth()
-    .sendPasswordResetEmail(email, {
-      url: 'http://localhost:3000/signin',
-      handleCodeInApp: true,
-    })
+    .sendPasswordResetEmail(email, ACTION_RESET_EMAIL)
     .then(res => res)
     .catch(error => Promise.reject(error.message));

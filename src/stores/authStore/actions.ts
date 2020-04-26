@@ -1,6 +1,6 @@
 import { FORM_ERROR } from 'final-form';
 import * as types from './types';
-import { AuthValue, ResetPassword } from '../../authTypes';
+import { AuthValue, ResetPassword } from '../../ts-types/authTypes';
 
 export const createUserRequest = (values: AuthValue) => ({
   type: types.CREATE_USER_REQUEST,

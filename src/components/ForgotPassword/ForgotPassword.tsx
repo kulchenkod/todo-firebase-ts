@@ -9,9 +9,10 @@ import {
 } from '@material-ui/core';
 import { Form, Field } from 'react-final-form';
 import MakeAsyncFunction from 'react-redux-promise-listener';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { promiseListener } from '../../setup';
 import { types } from '../../stores/authStore';
+import routes from '../../routes/routes';
 
 const useStyles = makeStyles(theme => ({
   fileds: {
@@ -23,6 +24,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Join: React.FC = () => {
+  const history = useHistory();
   const style = useStyles();
   return (
     <>
@@ -37,6 +39,11 @@ const Join: React.FC = () => {
             <Form
               onSubmit={async values => {
                 const errors = await onSubmit(values);
+                if (!errors) {
+                  // eslint-disable-next-line no-alert
+                  alert('We send you reset code to email, Thank you!');
+                  history.push(routes.signin);
+                }
                 return errors;
               }}
             >
@@ -74,7 +81,7 @@ const Join: React.FC = () => {
                     Reset Password
                   </Button>
                   <Typography align="center" component="p" gutterBottom>
-                    You have account? <Link to="/signin">Sign in</Link>
+                    You have account? <Link to={routes.signin}>Sign in</Link>
                   </Typography>
                 </form>
               )}
