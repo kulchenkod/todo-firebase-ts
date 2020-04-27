@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       minHeight: '150px',
+      cursor: 'pointer',
     },
   }),
 );
@@ -76,7 +77,7 @@ const ProjectItem: React.FC<Props> = ({
   };
 
   return (
-    <Grid className={classes.root} item xs={12} sm={6} md={4} lg={2} xl={2}>
+    <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
       <Button
         aria-controls="simple-menu"
         aria-haspopup="true"

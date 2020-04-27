@@ -6,35 +6,34 @@ export const addTask = (value: Item) =>
   firebaseApp
     .firestore()
     .collection(COLLECTIONS.projectItems)
-    .doc(value.id)
-    .set({
-      assignedUsers: [],
-      isDone: false,
-      ...value,
-    })
+    .doc(value.projectId)
+    .set(value)
     .then(res => res)
     .catch(error => Promise.reject(error.message));
 
-// export const deleteTask = (value: string) =>
-//   firebaseApp
-//     .firestore()
-//     .collection(COLLECTIONS.projects)
-//     .doc(taskId)
-//     .delete()
-//     .then(res =>
-//       firebaseApp
-//         .firestore()
-//         .collection(COLLECTIONS.projectItems)
-//         .doc(projectId)
-//         .delete(),
-//     )
-//     .catch(error => Promise.reject(error.message));
+export const deleteTask = (value: Item) =>
+  firebaseApp
+    .firestore()
+    .collection(COLLECTIONS.projectItems)
+    .doc(value.projectId)
+    .set(value)
+    .then(res => res)
+    .catch(error => Promise.reject(error.message));
 
-// export const updateProject = (value: Item) =>
-//   firebaseApp
-//     .firestore()
-//     .collection(COLLECTIONS.projects)
-//     .doc(value.id)
-//     .update(value)
-//     .then(res => res)
-//     .catch(error => Promise.reject(error.message));
+export const changeTaskStatus = (value: Item) =>
+  firebaseApp
+    .firestore()
+    .collection(COLLECTIONS.projectItems)
+    .doc(value.projectId)
+    .set(value)
+    .then(res => res)
+    .catch(error => Promise.reject(error.message));
+
+export const assignedTaskToUser = (value: Item) =>
+  firebaseApp
+    .firestore()
+    .collection(COLLECTIONS.projectItems)
+    .doc(value.projectId)
+    .set(value)
+    .then(res => res)
+    .catch(error => Promise.reject(error.message));

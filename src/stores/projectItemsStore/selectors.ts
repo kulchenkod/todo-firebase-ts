@@ -19,7 +19,7 @@ export const selectItems: Selector<
     data: Item;
     loading: boolean;
   }
-> = createSelector([getItems, getLoading], (collection, loading) => ({
-  data: collection,
+> = createSelector([getItems, getLoading], (item, loading) => ({
+  data: item,
   loading,
 }));

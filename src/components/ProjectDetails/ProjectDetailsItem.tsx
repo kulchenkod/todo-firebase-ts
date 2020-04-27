@@ -12,12 +12,18 @@ import {
   useTheme,
   Theme,
   Badge,
+  Button,
 } from '@material-ui/core';
 import { Task } from '../../ts-types/projectsTypes';
+import { Users } from '../../ts-types/usersTypes';
 import { AuthContext } from '../../common/FirebaseAuthProvider';
 
 type Props = {
   task: Task;
+  users: Users[];
+  deleteTask: (taskId: string) => void;
+  changeTaskStatus: (taskId: string, status: boolean) => void;
+  assignedUser: (taskId: string, usersToAssigne: string[]) => void;
 };
 
 const useStyles = makeStyles(theme => ({
@@ -53,6 +59,10 @@ const MenuProps = {
 
 const ProjectDetailsItem: React.FC<Props> = ({
   task: { id, isDone, title, assignedUsers },
+  deleteTask,
+  changeTaskStatus,
+  users,
+  assignedUser,
 }) => {
   const [switchDone, setSwitchDone] = useState<boolean>(isDone);
   const [assignedEmail, setAssignedEmail] = useState<string[]>(assignedUsers);
@@ -65,13 +75,20 @@ const ProjectDetailsItem: React.FC<Props> = ({
     target: { checked },
   }: React.ChangeEvent<HTMLInputElement>) => {
     setSwitchDone(checked);
+    changeTaskStatus(id, checked);
   };
 
   const handleChangeSelect = ({
     target: { value },
   }: React.ChangeEvent<{ value: unknown }>) => {
     setAssignedEmail(value as string[]);
+    assignedUser(id, value as string[]);
   };
+
+  const handleDeleteTask = () => {
+    deleteTask(id);
+  };
+
   return (
     <Grid
       container
@@ -102,16 +119,7 @@ const ProjectDetailsItem: React.FC<Props> = ({
           input={<Input />}
           MenuProps={MenuProps}
         >
-          {/* Users collections */}
-          {[
-            'dmitriykulchenko@gmail.com',
-            'asdasdasdasd@asdasd.asdas',
-            'qwe@qwe.asd',
-            'fffff@asdsss.aasd',
-            'asdasasdasdasd',
-            'asdas3123123@qwqweqw.qweqwe',
-            '45125125@wqeqweqwe',
-          ].map(email => (
+          {users.map(({ email }) => (
             <MenuItem
               key={email}
               value={email}
@@ -127,6 +135,9 @@ const ProjectDetailsItem: React.FC<Props> = ({
           <Typography>This assigned to you</Typography>
         </Badge>
       )}
+      <Button variant="contained" color="secondary" onClick={handleDeleteTask}>
+        Delete
+      </Button>
     </Grid>
   );
 };

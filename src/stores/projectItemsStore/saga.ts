@@ -1,15 +1,18 @@
 import { eventChannel } from 'redux-saga';
-import { call, put, take, takeLatest } from 'redux-saga/effects';
+import { call, put, take, takeLatest, select } from 'redux-saga/effects';
+import uniqid from 'uniqid';
 import * as actions from './actions';
 import * as types from './types';
 import firebaseApp from '../../config/firebaseConfig';
 import { COLLECTIONS } from '../../environment';
 import { Item } from '../../ts-types/projectsTypes';
-// import {
-//   addProject,
-//   deleteProject,
-//   updateProject,
-// } from '../../api/projectsApi';
+import {
+  addTask,
+  deleteTask,
+  changeTaskStatus,
+  assignedTaskToUser,
+} from '../../api/projectItemsApi';
+import { selectItems } from './selectors';
 
 function createAllProjectsChannel(id: string) {
   return (
@@ -26,7 +29,6 @@ function createAllProjectsChannel(id: string) {
             querySnapshot.forEach((doc: any) => {
               item.push(doc.data());
             });
-            console.log(item);
             emit(item);
           },
           () => emit(false),
@@ -52,42 +54,80 @@ function* getItemWorker({
   }
 }
 
-// function* addNewProjectWorker({
-//   payload,
-// }: ReturnType<typeof actions.addNewProjectRequest>) {
-//   try {
-//     const data = yield call(addProject, payload);
-//     yield put(actions.addNewProjectSuccess(data));
-//   } catch (e) {
-//     yield put(actions.addNewProjectFailure(e));
-//   }
-// }
+function* addTaskWorker({
+  payload,
+}: ReturnType<typeof actions.addTaskRequest>) {
+  try {
+    const { data }: { data: Item } = yield select(selectItems);
+    const newTask = {
+      ...data,
+      tasksList: [
+        ...data.tasksList,
+        {
+          assignedUsers: [],
+          title: payload,
+          id: uniqid(),
+          isDone: false,
+        },
+      ],
+    };
+    const dataTask = yield call(addTask, newTask);
+    yield put(actions.addTaskSuccess(dataTask));
+  } catch (e) {
+    yield put(actions.addTaskFailure(e));
+  }
+}
 
-// function* deleteProjectWorker({
-//   payload,
-// }: ReturnType<typeof actions.deleteProjectRequest>) {
-//   try {
-//     const data = yield call(deleteProject, payload);
-//     yield put(actions.deleteProjectSuccess(data));
-//   } catch (e) {
-//     yield put(actions.deleteProjectFailure(e));
-//   }
-// }
+function* deleteTaskWorker({
+  payload,
+}: ReturnType<typeof actions.deleteTaskRequest>) {
+  try {
+    const { data }: { data: Item } = yield select(selectItems);
+    data.tasksList = data.tasksList.filter(({ id }) => id !== payload);
 
-// function* updateProjectWorker({
-//   payload,
-// }: ReturnType<typeof actions.updateProjectRequest>) {
-//   try {
-//     const data = yield call(updateProject, payload);
-//     yield put(actions.updateProjectSuccess(data));
-//   } catch (e) {
-//     yield put(actions.updateProjectFailure(e));
-//   }
-// }
+    const dataTask = yield call(deleteTask, data);
+    yield put(actions.deleteTaskSuccess(dataTask));
+  } catch (e) {
+    yield put(actions.deleteTaskFailure(e));
+  }
+}
+
+function* changeTaskStatusWorker({
+  payload,
+}: ReturnType<typeof actions.changeTaskStatusRequest>) {
+  try {
+    const { data }: { data: Item } = yield select(selectItems);
+    const index = data.tasksList.findIndex(({ id }) => id === payload.taskId);
+    data.tasksList[index].isDone = payload.status;
+
+    const dataTask = yield call(changeTaskStatus, data);
+
+    yield put(actions.changeTaskStatusSuccess(dataTask));
+  } catch (e) {
+    yield put(actions.changeTaskStatusFailure(e));
+  }
+}
+
+function* assignedTaskWorker({
+  payload,
+}: ReturnType<typeof actions.assignedTaskRequest>) {
+  try {
+    const { data }: { data: Item } = yield select(selectItems);
+    const index = data.tasksList.findIndex(({ id }) => id === payload.taskId);
+    data.tasksList[index].assignedUsers = payload.assignedUsers;
+
+    const dataTask = yield call(assignedTaskToUser, data);
+
+    yield put(actions.assignedTaskSuccess(dataTask));
+  } catch (e) {
+    yield put(actions.assignedTaskFailure(e));
+  }
+}
 
 export default function* watcher() {
   yield takeLatest(types.GET_ITEMS_REQUEST, getItemWorker);
-  // yield takeLatest(types.ADD_NEW_PROJECT_REQUEST, addNewProjectWorker);
-  // yield takeLatest(types.DELETE_PROJECT_REQUEST, deleteProjectWorker);
-  // yield takeLatest(types.UPDATE_PROJECT_REQUEST, updateProjectWorker);
+  yield takeLatest(types.ADD_TASK_REQUEST, addTaskWorker);
+  yield takeLatest(types.DELETE_TASK_REQUEST, deleteTaskWorker);
+  yield takeLatest(types.CHANGE_TASK_STATUS_REQUEST, changeTaskStatusWorker);
+  yield takeLatest(types.ASSIGNE_TASK_REQUEST, assignedTaskWorker);
 }
