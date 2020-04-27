@@ -39,7 +39,7 @@ const ProjectItem: React.FC<Props> = ({
   updateProject,
 }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [open, setOpen] = React.useState<boolean>(false);
+  const [open, setOpenMenu] = React.useState<boolean>(false);
   const history = useHistory();
   const classes = useStyles();
 
@@ -48,11 +48,11 @@ const ProjectItem: React.FC<Props> = ({
   };
 
   const handleCloseDialog = () => {
-    setOpen(false);
+    setOpenMenu(false);
   };
 
   const handleOpenDialog = () => {
-    setOpen(true);
+    setOpenMenu(true);
     handleClose();
   };
 

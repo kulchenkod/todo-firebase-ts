@@ -1,8 +1,8 @@
 import firebaseApp from '../config/firebaseConfig';
-import { Project } from '../ts-types/projectsTypes';
+import { Item } from '../ts-types/projectsTypes';
 import { COLLECTIONS } from '../environment';
 
-export const addTask = (value: Project) =>
+export const addTask = (value: Item) =>
   firebaseApp
     .firestore()
     .collection(COLLECTIONS.projectItems)
@@ -15,26 +15,26 @@ export const addTask = (value: Project) =>
     .then(res => res)
     .catch(error => Promise.reject(error.message));
 
-export const deleteProject = (projectId: string) =>
-  firebaseApp
-    .firestore()
-    .collection(COLLECTIONS.projects)
-    .doc(projectId)
-    .delete()
-    .then(res =>
-      firebaseApp
-        .firestore()
-        .collection(COLLECTIONS.projectItems)
-        .doc(projectId)
-        .delete(),
-    )
-    .catch(error => Promise.reject(error.message));
+// export const deleteTask = (value: string) =>
+//   firebaseApp
+//     .firestore()
+//     .collection(COLLECTIONS.projects)
+//     .doc(taskId)
+//     .delete()
+//     .then(res =>
+//       firebaseApp
+//         .firestore()
+//         .collection(COLLECTIONS.projectItems)
+//         .doc(projectId)
+//         .delete(),
+//     )
+//     .catch(error => Promise.reject(error.message));
 
-export const updateProject = (value: Project) =>
-  firebaseApp
-    .firestore()
-    .collection(COLLECTIONS.projects)
-    .doc(value.id)
-    .update(value)
-    .then(res => res)
-    .catch(error => Promise.reject(error.message));
+// export const updateProject = (value: Item) =>
+//   firebaseApp
+//     .firestore()
+//     .collection(COLLECTIONS.projects)
+//     .doc(value.id)
+//     .update(value)
+//     .then(res => res)
+//     .catch(error => Promise.reject(error.message));
